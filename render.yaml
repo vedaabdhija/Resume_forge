@@ -2,7 +2,7 @@ services:
   # 1. FastAPI Backend Web Service
   - type: web
     name: resumeforge-api
-    env: python
+    runtime: python
     buildCommand: cd backend && pip install -r requirements.txt
     startCommand: cd backend && uvicorn app.main:app --host 0.0.0.0 --port $PORT
     envVars:
@@ -18,8 +18,9 @@ services:
         value: "http://localhost:5173,http://localhost:3000" # Update with your client domain once deployed
 
   # 2. React Frontend Static Site
-  - type: static
+  - type: web
     name: resumeforge-client
+    runtime: static
     buildCommand: cd frontend && npm install && npm run build
     staticPublishPath: frontend/dist
     headers:
