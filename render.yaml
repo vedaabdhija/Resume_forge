@@ -15,16 +15,16 @@ services:
       - key: GEMINI_API_KEY
         sync: false # Set securely in the Render dashboard UI
       - key: ALLOWED_ORIGINS
-        value: "http://localhost:5173,http://localhost:3000" # Add your frontend render domain here once deployed
+        value: "http://localhost:5173,http://localhost:3000" # Update with your client domain once deployed
 
   # 2. React Frontend Static Site
-  - type: web
+  - type: static
     name: resumeforge-client
-    env: static
     buildCommand: cd frontend && npm install && npm run build
-    publishDir: frontend/dist
+    staticPublishPath: frontend/dist
     headers:
-      - key: Access-Control-Allow-Origin
+      - path: /*
+        name: Access-Control-Allow-Origin
         value: "*"
     envVars:
       - key: VITE_API_URL
