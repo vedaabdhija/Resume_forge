@@ -1,0 +1,25 @@
+# Python virtual env and cache
+venv/
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+resumeforge.db
+
+# Backend uploads & env files
+backend/.env
+backend/uploads/*
+!backend/uploads/.gitkeep
+
+# Node packages & build outputs
+node_modules/
+dist/
+.eslintcache
+frontend/.env
+frontend/dist/
+
+# OS specific files
+.DS_Store
+Thumbs.db

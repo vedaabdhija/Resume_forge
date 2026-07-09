@@ -1,0 +1,37 @@
+services:
+  # 1. FastAPI Backend Web Service
+  - type: web
+    name: resumeforge-api
+    env: python
+    buildCommand: cd backend && pip install -r requirements.txt
+    startCommand: cd backend && uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: resumeforge-db
+          property: connectionString
+      - key: DEMO_MODE
+        value: "false"
+      - key: GEMINI_API_KEY
+        sync: false # Set securely in the Render dashboard UI
+      - key: ALLOWED_ORIGINS
+        value: "http://localhost:5173,http://localhost:3000" # Add your frontend render domain here once deployed
+
+  # 2. React Frontend Static Site
+  - type: web
+    name: resumeforge-client
+    env: static
+    buildCommand: cd frontend && npm install && npm run build
+    publishDir: frontend/dist
+    headers:
+      - key: Access-Control-Allow-Origin
+        value: "*"
+    envVars:
+      - key: VITE_API_URL
+        fromService:
+          name: resumeforge-api
+          property: host
+
+databases:
+  - name: resumeforge-db
+    plan: free
