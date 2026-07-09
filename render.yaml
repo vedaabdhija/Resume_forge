@@ -31,6 +31,7 @@ services:
       - key: VITE_API_URL
         fromService:
           name: resumeforge-api
+          type: web
           property: host
 
 databases:
